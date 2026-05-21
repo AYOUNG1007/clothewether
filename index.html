@@ -3,21 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>날씨 코디룸 - 캐릭터 커스터마이징 v3</title>
+    <title>날씨 코디 & 캐릭터 커스텀룸</title>
     <style>
-        :root {
-            --bg-color: #f4f6f9;
-            --card-color: #ffffff;
-            --primary-color: #3f51b5;
-            --accent-color: #f50057;
-            --text-color: #2c3e50;
-            --skin-color: #ffdbac;
-        }
-
         body {
             font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: #f0f2f5;
+            color: #333;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -26,86 +17,232 @@
             min-height: 100vh;
         }
 
-        .main-wrapper {
+        .main-container {
             display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 25px;
-            max-width: 1200px;
+            grid-template-columns: 1fr 340px;
+            gap: 20px;
+            max-width: 1100px;
             width: 100%;
         }
 
-        /* 왼쪽: 컨트롤 및 추천 */
-        .controls-panel {
+        @media (max-width: 850px) {
+            .main-container { grid-template-columns: 1fr; }
+        }
+
+        /* 왼쪽 스타일 설정 패널 */
+        .left-panel {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
-        .card {
-            background: var(--card-color);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        .box-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
         }
 
-        .card-header {
-            font-size: 1.3rem;
+        .box-title {
+            font-size: 1.15rem;
             font-weight: bold;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            border-bottom: 2px solid #edf2f7;
-            padding-bottom: 10px;
+            color: #3f51b5;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 8px;
         }
 
-        /* 입력 폼 */
-        .input-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        /* 입력 레이아웃 */
+        .flex-row {
+            display: flex;
             gap: 15px;
+            flex-wrap: wrap;
             margin-bottom: 15px;
         }
 
-        .input-group {
+        .flex-item {
+            flex: 1;
+            min-width: 120px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 5px;
         }
 
-        label { font-size: 0.95rem; font-weight: bold; color: #4a5568; }
+        label { font-size: 0.9rem; font-weight: bold; color: #555; }
         select, input[type="number"] {
-            padding: 12px;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 0.95rem;
         }
-        select:focus, input:focus { border-color: var(--primary-color); outline: none; }
 
-        .recommend-btn {
+        .action-btn {
             width: 100%;
-            padding: 15px;
-            background: var(--primary-color);
+            padding: 12px;
+            background: #3f51b5;
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
+            transition: background 0.2s;
         }
-        .recommend-btn:hover { background: #303f9f; }
-        .recommend-btn:active { transform: translateY(1px); }
+        .action-btn:hover { background: #2c3b96; }
 
-        .recommend-box {
-            margin-top: 15px;
-            padding: 18px;
+        .result-alert {
+            margin-top: 12px;
+            padding: 15px;
             background: #e8eaf6;
-            border-radius: 10px;
-            border-left: 5px solid var(--primary-color);
-            line-height: 1.6;
+            border-left: 5px solid #3f51b5;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
-        /* 커스터마이징 그리드 */
-        .custom-grid {
+        /* 커스텀 그리드 시스템 */
+        .btn-grid {
             display: grid;
-            grid
+            grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+            gap: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        .btn-option {
+            background: #fdfdfd;
+            border: 2px solid #e0e0e0;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .btn-option:hover { border-color: #3f51b5; background: #f5f6fb; }
+        .btn-option.active { border-color: #ff4081; background: #fff0f5; font-weight: bold; }
+
+        .picker-inline {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        input[type="color"] {
+            width: 40px; height: 40px; border: none; cursor: pointer; padding: 0; background: none;
+        }
+
+        /* 오른쪽 캐릭터 뷰어 */
+        .right-panel {
+            position: sticky;
+            top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .canvas-frame {
+            width: 100%;
+            height: 460px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        /* 요소 숨김/표시용 클래스 */
+        .hide-item { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        
+        <div class="left-panel">
+            
+            <div class="box-card">
+                <div class="box-title">⛅ 1. 오늘 날씨 & 건강 상태 입력</div>
+                <div class="flex-row">
+                    <div class="flex-item">
+                        <label>계절 선택</label>
+                        <select id="select-season">
+                            <option value="spring">봄 🌸</option>
+                            <option value="summer">여름 ☀️</option>
+                            <option value="autumn">가을 🍁</option>
+                            <option value="winter">겨울 ❄️</option>
+                        </select>
+                    </div>
+                    <div class="flex-item">
+                        <label>현재 기온 (°C)</label>
+                        <input type="number" id="input-temp" value="18">
+                    </div>
+                    <div class="flex-item">
+                        <label>내 건강 상태</label>
+                        <select id="select-health">
+                            <option value="normal">건강함 😀</option>
+                            <option value="cold">감기 기운 😷</option>
+                            <option value="hot">더위 많이 탐 🥵</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="action-btn" onclick="runWeatherRecommendation()">날씨 맞춤 옷 입히기 실행 ✨</button>
+                <div class="result-alert" id="recommend-msg">기온과 상태를 입력하고 버튼을 누르면 어울리는 옷이 캐릭터에 자동 적용됩니다!</div>
+            </div>
+
+            <div class="box-card">
+                <div class="box-title">👩‍🎨 2. 캐릭터 얼굴 & 피부 성형룸</div>
+                
+                <div class="picker-inline">
+                    <label>피부 톤 변경:</label>
+                    <input type="color" id="pick-skin" value="#ffdbac" onchange="applySkinColor(this.value)">
+                </div>
+
+                <label>얼굴형 (Face)</label>
+                <div class="btn-grid" id="grid-face">
+                    <div class="btn-option active" onclick="changeFace('round')">둥근형</div>
+                    <div class="btn-option" onclick="changeFace('vshape')">V라인</div>
+                </div>
+
+                <label>눈 모양 (Eyes)</label>
+                <div class="btn-grid" id="grid-eyes">
+                    <div class="btn-option active" onclick="changeEyes('normal')">초롱초롱</div>
+                    <div class="btn-option" onclick="changeEyes('big')">왕눈이</div>
+                    <div class="btn-option" onclick="changeEyes('line')">시크무쌍</div>
+                </div>
+
+                <label>코 모양 (Nose)</label>
+                <div class="btn-grid" id="grid-nose">
+                    <div class="btn-option active" onclick="changeNose('normal')">기본코</div>
+                    <div class="btn-option" onclick="changeNose('sharp')">높은코</div>
+                </div>
+
+                <label>입 모양 (Mouth)</label>
+                <div class="btn-grid" id="grid-mouth">
+                    <div class="btn-option active" onclick="changeMouth('normal')">미소</div>
+                    <div class="btn-option" onclick="changeMouth('open')">개구쟁이</div>
+                </div>
+            </div>
+
+            <div class="box-card">
+                <div class="box-title">🎨 3. 드레스룸 (옷 색상 수동 지정)</div>
+                <div class="picker-inline">
+                    <label>상의(티셔츠) 색:</label>
+                    <input type="color" id="pick-top" value="#e2e8f0" onchange="applyClothingColor('top', this.value)">
+                    
+                    <label style="margin-left:20px;">하의(바지) 색:</label>
+                    <input type="color" id="pick-bottom" value="#4a5568" onchange="applyClothingColor('bottom', this.value)">
+                </div>
+                <p style="font-size:0.8rem; color:#666; margin:0;">※ 날씨 추천 버튼을 누르면 추천 색상으로 다시 자동 리셋됩니다.</p>
+            </div>
+
+        </div>
+
+        <div class="right-panel">
+            <div class="canvas-frame">
+                <svg viewBox="0 0 200 320" width="100%" height="100%" style="display:block; margin:0 auto;">
+                    
+                    <g id="body-parts">
+                        <rect id="part-neck" x="93" y="100" width="14" height="20" fill="#ffdbac" />
+                        <circle id="node-face-round" cx="100" cy="75" r="30" fill="#ffdbac" />
+                        <path id="node-face-vshape" class="hide-item" d="M 70 75 Q 100 115 130 75 A 30 30 0 0 0 7
