@@ -3,19 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>커스텀 웨더 코디룸 - 드레스룸 v2</title>
+    <title>날씨 코디룸 - 캐릭터 커스터마이징 v3</title>
     <style>
         :root {
-            --bg-color: #f7f9fc;
+            --bg-color: #f4f6f9;
             --card-color: #ffffff;
-            --primary-color: #5c6bc0;
-            --accent-color: #ff7043;
-            --text-color: #333;
-            
-            /* 기본 옷 색상 */
-            --default-top: #e0e0e0;
-            --default-bottom: #78909c;
-            --default-outer: #546e7a;
+            --primary-color: #3f51b5;
+            --accent-color: #f50057;
+            --text-color: #2c3e50;
             --skin-color: #ffdbac;
         }
 
@@ -26,107 +21,91 @@
             margin: 0;
             padding: 20px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            align-items: flex-start;
             min-height: 100vh;
         }
 
-        h1 { margin: 10px 0; font-size: 2rem; color: #333; }
-        .subtitle { margin-bottom: 20px; color: #666; text-align: center;}
-
-        .main-container {
+        .main-wrapper {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            max-width: 1100px;
+            grid-template-columns: 1fr 350px;
+            gap: 25px;
+            max-width: 1200px;
             width: 100%;
         }
 
-        @media (max-width: 900px) {
-            .main-container { grid-template-columns: 1fr; }
-        }
-
-        /* 컨트롤 및 드레스룸 섹션 */
-        .controls-section {
+        /* 왼쪽: 컨트롤 및 추천 */
+        .controls-panel {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
         .card {
             background: var(--card-color);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
-        .card-title {
-            font-size: 1.1rem;
+        .card-header {
+            font-size: 1.3rem;
             font-weight: bold;
-            margin-bottom: 15px;
             color: var(--primary-color);
-            border-bottom: 2px solid #eee;
-            padding-bottom: 8px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 10px;
         }
 
-        .form-row {
+        /* 입력 폼 */
+        .input-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 15px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
-        .form-group {
+        .input-group {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 8px;
         }
 
-        label { font-size: 0.9rem; font-weight: bold; color: #555; }
+        label { font-size: 0.95rem; font-weight: bold; color: #4a5568; }
         select, input[type="number"] {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
             font-size: 1rem;
+            transition: border-color 0.2s;
         }
+        select:focus, input:focus { border-color: var(--primary-color); outline: none; }
 
         .recommend-btn {
-            padding: 12px;
+            width: 100%;
+            padding: 15px;
             background: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
+            border-radius: 12px;
+            font-size: 1.1rem;
             font-weight: bold;
-            transition: background 0.2s;
-            width: 100%;
-        }
-        .recommend-btn:hover { background: #4a59a7; }
-
-        .recommendation-result {
-            margin-top: 10px;
-            padding: 15px;
-            background: #e8eaf6;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary-color);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        /* 드레스룸 아이템 선택 박스 */
-        .item-picker-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 10px;
-        }
-
-        .item-option {
-            border: 2px solid #eee;
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.8rem;
-            display
+            transition: background 0.2s, transform 0.1s;
+        }
+        .recommend-btn:hover { background: #303f9f; }
+        .recommend-btn:active { transform: translateY(1px); }
+
+        .recommend-box {
+            margin-top: 15px;
+            padding: 18px;
+            background: #e8eaf6;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary-color);
+            line-height: 1.6;
+        }
+
+        /* 커스터마이징 그리드 */
+        .custom-grid {
+            display: grid;
+            grid
