@@ -2,24 +2,184 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>완벽 실시간 캐릭터 커스텀 룸</title>
+    <title>캐릭터 커스텀 테스트</title>
     <style>
-        body { font-family: sans-serif; background-color: #f0f4f8; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .wrapper { display: flex; gap: 30px; max-width: 950px; width: 100%; background: #ffffff; padding: 25px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
-        .editor-panel { flex: 1; display: flex; flex-direction: column; gap: 18px; }
-        .avatar-panel { width: 320px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: sticky; top: 20px; }
+        /* 누구나 다 아는 가장 기본적이고 직관적인 스타일 */
+        body { font-family: sans-serif; background: #eef2f3; padding: 20px; text-align: center; }
+        .main-box { display: inline-flex; background: white; padding: 20px; border-radius: 10px; border: 2px solid #ccc; gap: 30px; text-align: left; }
+        .menu-side { width: 300px; }
+        .view-side { width: 220px; background: #fafafa; border: 1px solid #ddd; padding: 10px; text-align: center; }
+        .title { font-weight: bold; color: blue; margin-top: 15px; margin-bottom: 5px; }
+        button { margin: 2px; padding: 6px 10px; cursor: pointer; }
+        .active-btn { background: red; color: white; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h2>캐릭터 커스텀룸 (실시간 작동 보장)</h2>
+
+    <div class="main-box">
         
-        .box-title { font-size: 1.1rem; font-weight: bold; color: #4f46e5; border-bottom: 2px solid #edf2f7; padding-bottom: 6px; margin-bottom: 10px; }
-        .item-label { font-size: 0.9rem; font-weight: bold; color: #4a5568; margin-top: 8px; margin-bottom: 4px; }
-        
-        .btn-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
-        .opt-btn { padding: 8px 14px; background: #edf2f7; border: 1px solid #cbd5e0; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.15s; }
-        .opt-btn:hover { background: #e2e8f0; }
-        .opt-btn.active { background: #ec4899; color: white; border-color: #ec4899; font-weight: bold; }
-        
-        .color-row { display: flex; gap: 15px; align-items: center; margin-top: 5px; }
-        .color-item { display: flex; align-items: center; gap: 6px; font-size: 13px; }
-        input[type="color"] { width: 38px; height: 38px; border: 1px solid #cbd5e0; border-radius: 6px; cursor: pointer; background: none; padding: 0; }
-        
-        .weather-info { background: #eff6ff; padding: 12px; border-left: 4px solid #3b82f6
+        <div class="menu-side">
+            <div class="title">1. 날씨와 건강 상태 설정</div>
+            기온: <input type="number" id="temp" value="20" style="width:50px;"> °C <br>
+            상태: 
+            <select id="health">
+                <option value="good">최상 ✨</option>
+                <option value="cold">감기 😷</option>
+                <option value="tired">피로 😴</option>
+            </select>
+            <button onclick="changeWeatherCody()">날씨 코디 적용</button>
+            <div id="cody-text" style="background:#e1f5fe; padding:5px; margin-top:5px; font-size:12px;">버튼을 누르면 코디가 바뀝니다.</div>
+
+            <div class="title">2. 얼굴 & 스타일 성형</div>
+            
+            피부색: <input type="color" id="p-skin" value="#ffdbac" oninput="applySkin(this.value)"><br>
+            머리색: <input type="color" id="p-hair" value="#4a3728" oninput="applyHair(this.value)">
+            
+            <div>[얼굴형]</div>
+            <button onclick="applyFace('round')">둥근 얼굴</button>
+            <button onclick="applyFace('v')">정각 V라인</button>
+
+            <div>[헤어스타일]</div>
+            <button onclick="applyHairStyle('short')">숏컷</button>
+            <button onclick="applyHairStyle('long')">긴머리</button>
+
+            <div>[눈 모양]</div>
+            <button onclick="applyEyes('normal')">보통눈</button>
+            <button onclick="applyEyes('big')">왕눈이</button>
+
+            <div>[입 모양]</div>
+            <button onclick="applyMouth('normal')">미소</button>
+            <button onclick="applyMouth('open')">활짝</button>
+
+            <div class="title">3. 옷 색상 마음대로 바꾸기</div>
+            상의: <input type="color" id="p-top" value="#6366f1" oninput="applyClothColor('top', this.value)"><br>
+            하의: <input type="color" id="p-bottom" value="#475569" oninput="applyClothColor('bottom', this.value)">
+        </div>
+
+        <div class="view-side">
+            <svg width="200" height="300" style="background: white; border:1px solid #eee;">
+                
+                <rect id="char-neck" x="93" y="90" width="14" height="20" fill="#ffdbac"/>
+                <rect id="char-leg1" x="85" y="190" width="12" height="70" fill="#ffdbac"/>
+                <rect id="char-leg2" x="103" y="190" width="12" height="70" fill="#ffdbac"/>
+
+                <circle id="face-round" cx="100" cy="65" r="25" fill="#ffdbac" display="inline"/>
+                <rect id="face-v" x="75" y="40" width="50" height="50" rx="10" fill="#ffdbac" display="none"/>
+
+                <g id="eyes-normal" display="inline">
+                    <circle cx="90" cy="60" r="3" fill="#222"/><circle cx="110" cy="60" r="3" fill="#222"/>
+                </g>
+                <g id="eyes-big" display="none">
+                    <circle cx="90" cy="60" r="6" fill="#fff" stroke="#222"/><circle cx="90" cy="60" r="3" fill="#00f"/>
+                    <circle cx="110" cy="60" r="6" fill="#fff" stroke="#222"/><circle cx="110" cy="60" r="3" fill="#00f"/>
+                </g>
+
+                <line x1="100" y1="62" x2="100" y2="70" stroke="#cca194" stroke-width="2"/>
+
+                <path id="mouth-normal" d="M 95 80 Q 100 85 105 80" stroke="red" stroke-width="2" fill="none" display="inline"/>
+                <rect id="mouth-open" x="93" y="77" width="14" height="8" rx="3" fill="red" display="none"/>
+
+                <path id="hair-short" d="M 70 55 Q 100 20 130 55 Z" fill="#4a3728" display="inline"/>
+                <g id="hair-long" display="none">
+                    <path d="M 70 55 Q 100 20 130 55 Z" fill="#4a3728"/>
+                    <rect x="70" y="55" width="10" height="40" fill="#4a3728"/>
+                    <rect x="120" y="55" width="10" height="40" fill="#4a3728"/>
+                </g>
+
+                <rect id="cloth-pants" x="80" y="150" width="40" height="50" fill="#475569"/>
+
+                <rect id="cloth-top" x="70" y="105" width="60" height="50" fill="#6366f1"/>
+                
+                <rect id="cloth-outer" x="65" y="100" width="70" height="60" fill="black" display="none"/>
+                
+                <rect id="char-mask" x="85" y="68" width="30" height="15" fill="white" stroke="blue" display="none"/>
+
+            </svg>
+            <div style="font-size:12px; font-weight:bold; margin-top:5px;">실시간 캐릭터</div>
+        </div>
+
+    </div>
+
+    <script>
+        // 모든 기능을 브라우저가 다이렉트로 이해하게 아주 쉽게 구현했습니다.
+
+        // 1. 얼굴형 바꾸기
+        function applyFace(type) {
+            document.getElementById('face-round').setAttribute('display', type === 'round' ? 'inline' : 'none');
+            document.getElementById('face-v').setAttribute('display', type === 'v' ? 'inline' : 'none');
+        }
+
+        // 2. 헤어스타일 바꾸기
+        function applyHairStyle(type) {
+            document.getElementById('hair-short').setAttribute('display', type === 'short' ? 'inline' : 'none');
+            document.getElementById('hair-long').setAttribute('display', type === 'long' ? 'inline' : 'none');
+        }
+
+        // 3. 눈 모양 바꾸기
+        function applyEyes(type) {
+            document.getElementById('eyes-normal').setAttribute('display', type === 'normal' ? 'inline' : 'none');
+            document.getElementById('eyes-big').setAttribute('display', type === 'big' ? 'inline' : 'none');
+        }
+
+        // 4. 입 모양 바꾸기
+        function applyMouth(type) {
+            document.getElementById('mouth-normal').setAttribute('display', type === 'normal' ? 'inline' : 'none');
+            document.getElementById('mouth-open').setAttribute('display', type === 'open' ? 'inline' : 'none');
+        }
+
+        // 5. 피부색 바꾸기
+        function applySkin(color) {
+            document.getElementById('char-neck').setAttribute('fill', color);
+            document.getElementById('char-leg1').setAttribute('fill', color);
+            document.getElementById('char-leg2').setAttribute('fill', color);
+            document.getElementById('face-round').setAttribute('fill', color);
+            document.getElementById('face-v').setAttribute('fill', color);
+        }
+
+        // 6. 머리색 바꾸기
+        function applyHair(color) {
+            document.getElementById('hair-short').setAttribute('fill', color);
+            document.querySelectorAll('#hair-long *').forEach(el => el.setAttribute('fill', color));
+        }
+
+        // 7. 옷 색상 수동 변경 (상의/하의)
+        function applyClothColor(part, color) {
+            if(part === 'top') {
+                document.getElementById('cloth-top').setAttribute('fill', color);
+            } else {
+                document.getElementById('cloth-pants').setAttribute('fill', color);
+            }
+        }
+
+        // 8. 날씨 및 건강 시스템
+        function changeWeatherCody() {
+            var t = parseFloat(document.getElementById('temp').value);
+            var h = document.getElementById('health').value;
+            var txt = document.getElementById('cody-text');
+
+            // 초기화
+            document.getElementById('cloth-outer').setAttribute('display', 'none');
+            document.getElementById('char-mask').setAttribute('display', 'none');
+
+            // 건강 상태 체크 (마스크 작동 여부)
+            if(h === 'cold') {
+                document.getElementById('char-mask').setAttribute('display', 'inline');
+            }
+
+            // 기온별 코디 및 안내 메시지
+            if(t <= 10) {
+                txt.innerHTML = "❄️ 춥습니다! <b>검정 패딩 아우터</b>를 입혔습니다. 상태: " + h;
+                document.getElementById('cloth-outer').setAttribute('display', 'inline');
+            } else if(t > 10 && t < 23) {
+                txt.innerHTML = "🌸 선선합니다! 기본 <b>긴팔 티셔츠</b> 핏입니다. 상태: " + h;
+                applyClothColor('top', '#6366f1');
+            } else {
+                txt.innerHTML = "☀️ 덥습니다! 상의를 <b>시원한 노란색</b>으로 변경했습니다. 상태: " + h;
+                applyClothColor('top', 'yellow');
+            }
+        }
+    </script>
+</body>
+</html>
