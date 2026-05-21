@@ -3,29 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>스마트 웨더 캐주얼 코디룸</title>
+    <title>완벽 실시간 캐릭터 커스텀 룸</title>
     <style>
-        body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; background-color: #f5f7fa; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .container { display: grid; grid-template-columns: 1fr 360px; gap: 20px; max-width: 1150px; width: 100%; }
-        @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
+        body { font-family: sans-serif; background-color: #f0f4f8; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .wrapper { display: flex; gap: 30px; max-width: 950px; width: 100%; background: #ffffff; padding: 25px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+        .editor-panel { flex: 1; display: flex; flex-direction: column; gap: 18px; }
+        .avatar-panel { width: 320px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: sticky; top: 20px; }
         
-        .panel-left { display: flex; flex-direction: column; gap: 20px; }
-        .card { background: white; padding: 22px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
-        .card-title { font-size: 1.15rem; font-weight: bold; color: #4f46e5; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; }
+        .box-title { font-size: 1.1rem; font-weight: bold; color: #4f46e5; border-bottom: 2px solid #edf2f7; padding-bottom: 6px; margin-bottom: 10px; }
+        .item-label { font-size: 0.9rem; font-weight: bold; color: #4a5568; margin-top: 8px; margin-bottom: 4px; }
         
-        .row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
-        .group { flex: 1; min-width: 120px; display: flex; flex-direction: column; gap: 6px; }
-        label { font-size: 0.9rem; font-weight: bold; color: #475569; }
-        select, input[type="number"] { padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; }
-        select:focus, input:focus { border-color: #4f46e5; }
+        .btn-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+        .opt-btn { padding: 8px 14px; background: #edf2f7; border: 1px solid #cbd5e0; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+        .opt-btn:hover { background: #e2e8f0; }
+        .opt-btn.active { background: #ec4899; color: white; border-color: #ec4899; font-weight: bold; }
         
-        .btn-blue { width: 100%; padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; }
-        .btn-blue:hover { background: #4338ca; }
-        .msg-box { margin-top: 12px; padding: 12px; background: #eff6ff; border-left: 4px solid #3b82f6; font-size: 0.95rem; border-radius: 4px; line-height: 1.5; }
+        .color-row { display: flex; gap: 15px; align-items: center; margin-top: 5px; }
+        .color-item { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+        input[type="color"] { width: 38px; height: 38px; border: 1px solid #cbd5e0; border-radius: 6px; cursor: pointer; background: none; padding: 0; }
         
-        .btn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 8px; margin-top: 5px; margin-bottom: 15px; }
-        .btn-opt { background: #f8fafc; border: 2px solid #e2e8f0; padding: 9px; border-radius: 8px; text-align: center; cursor: pointer; font-size: 0.85rem; }
-        .btn-opt:hover { border-color: #4f46e5; }
-        .btn-opt.active { border-color: #ec4899; background: #fff1f2; font-weight: bold; color: #db2777; }
-        
-        .picker-
+        .weather-info { background: #eff6ff; padding: 12px; border-left: 4px solid #3b82f6
