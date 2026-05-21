@@ -47,3 +47,283 @@
                             <option value="good">건강함 (최상) ✨</option>
                             <option value="cold">독감/몸살 기운 😷</option>
                             <option value="allergy">비염/알레르기 🌿</option>
+                            <option value="tired">극심한 피로 상태 😴</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="submit-btn" onclick="updateSmartCody()">날씨 맞춤 코디 및 영양 추천 실행 ⚡</button>
+                <div class="info-box" id="cody-result-msg" style="margin-top: 10px;">버튼을 누르면 제페토 캐릭터의 의상과 실시간 조언이 바뀝니다.</div>
+            </div>
+
+            <div class="block">
+                <div class="section-title">🎨 캐릭터 커스터마이징 (제페토 스타일)</div>
+                
+                <div class="picker-group">
+                    <div class="picker-box">
+                        <label>피부톤:</label>
+                        <input type="color" id="color-skin" value="#ffe5d9" oninput="setLiveSkin(this.value)">
+                    </div>
+                    <div class="picker-box">
+                        <label>머리색:</label>
+                        <input type="color" id="color-hair" value="#6f4e37" oninput="setLiveHair(this.value)">
+                    </div>
+                </div>
+
+                <div class="label-text">얼굴형 (볼살 비율)</div>
+                <div class="btn-group" id="ui-face">
+                    <button class="custom-btn active" onclick="setLiveFace('zepeto-round')">동글동글 귀여운형</button>
+                    <button class="custom-btn" onclick="setLiveFace('zepeto-v')">갸름한 V라인형</button>
+                </div>
+
+                <div class="label-text">헤어 스타일</div>
+                <div class="btn-group" id="ui-hair">
+                    <button class="custom-btn active" onclick="setLiveHairStyle('wave')">풍성한 웨이브 롱헤어</button>
+                    <button class="custom-btn" onclick="setLiveHairStyle('bob')">귀여운 단발 머리</button>
+                    <button class="custom-btn" onclick="setLiveHairStyle('short')">깔끔한 숏컷 단발</button>
+                </div>
+
+                <div class="label-text">눈 모양 (제페토 감성 큰 눈)</div>
+                <div class="btn-group" id="ui-eyes">
+                    <button class="custom-btn active" onclick="setLiveEyes('big-brown')">러블리 브라운 아이</button>
+                    <button class="custom-btn" onclick="setLiveEyes('big-blue')">신비로운 블루 아이</button>
+                    <button class="custom-btn" onclick="setLiveEyes('smile-eyes')">해맑은 반달 웃음눈</button>
+                </div>
+
+                <div class="label-text">입 모양</div>
+                <div class="btn-group" id="ui-mouth">
+                    <button class="custom-btn active" onclick="setLiveMouth('happy')">수줍은 미소</button>
+                    <button class="custom-btn" onclick="setLiveMouth('open-smile')">활짝 열린 웃음</button>
+                </div>
+            </div>
+
+            <div class="block">
+                <div class="section-title">👗 의상 컬러 드레스룸 (수동 조절)</div>
+                <div class="picker-group">
+                    <div class="picker-box">
+                        <label>상의(니트/티) 색상:</label>
+                        <input type="color" id="color-top" value="#85a98f" oninput="setLiveCloth('top', this.value)">
+                    </div>
+                    <div class="picker-box">
+                        <label>하의(팬츠) 색상:</label>
+                        <input type="color" id="color-bottom" value="#3d3d3d" oninput="setLiveCloth('bottom', this.value)">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="view-side">
+            <svg viewBox="0 0 200 320" width="100%" height="420px">
+                
+                <g id="z-body">
+                    <path id="z-neck" d="M 94 95 L 94 110 L 106 110 L 106 95 Z" fill="#ffe5d9" />
+                    <path id="z-leg-l" d="M 76 210 L 92 210 L 90 285 Q 90 290 82 290 L 74 285 Z" fill="#ffe5d9"/>
+                    <path id="z-leg-r" d="M 108 210 L 124 210 L 126 285 L 118 290 Q 110 290 110 285 Z" fill="#ffe5d9"/>
+                    <path d="M 71 283 L 91 283 L 91 296 L 71 294 Z" fill="#b45309"/>
+                    <path d="M 109 283 L 129 283 L 129 294 L 109 296 Z" fill="#b45309"/>
+                </g>
+
+                <g id="z-bare-arms" style="display: none;">
+                    <path d="M 68 135 L 58 185 L 68 185 Z" fill="#ffe5d9"/>
+                    <path d="M 132 135 L 142 185 L 132 185 Z" fill="#ffe5d9"/>
+                </g>
+
+                <g id="z-face-layer">
+                    <path id="face-round" d="M 66 70 Q 64 104 100 112 Q 136 104 134 70 A 34 32 0 0 0 66 70 Z" fill="#ffe5d9" style="display: inline;"/>
+                    <path id="face-v" d="M 68 70 Q 68 106 100 114 Q 132 106 132 70 A 32 30 0 0 0 68 70 Z" fill="#ffe5d9" style="display: none;"/>
+                    
+                    <circle cx="78" cy="88" r="7" fill="#f43f5e" opacity="0.25"/>
+                    <circle cx="122" cy="88" r="7" fill="#f43f5e" opacity="0.25"/>
+                </g>
+
+                <g id="z-features-layer">
+                    <g id="eyes-brown" style="display: inline;">
+                        <circle cx="86" cy="74" r="7" fill="#fff"/><circle cx="86" cy="74" r="5.5" fill="#5c4033"/><circle cx="87.5" cy="72" r="2" fill="#fff"/>
+                        <circle cx="114" cy="74" r="7" fill="#fff"/><circle cx="114" cy="74" r="5.5" fill="#5c4033"/><circle cx="112.5" cy="72" r="2" fill="#fff"/>
+                    </g>
+                    <g id="eyes-blue" style="display: none;">
+                        <circle cx="86" cy="74" r="7" fill="#fff"/><circle cx="86" cy="74" r="5.5" fill="#2563eb"/><circle cx="87.5" cy="72" r="2" fill="#fff"/><circle cx="85" cy="75" r="1" fill="#fff"/>
+                        <circle cx="114" cy="74" r="7" fill="#fff"/><circle cx="114" cy="74" r="5.5" fill="#2563eb"/><circle cx="112.5" cy="72" r="2" fill="#fff"/><circle cx="115" cy="75" r="1" fill="#fff"/>
+                    </g>
+                    <g id="eyes-smile" style="display: none;">
+                        <path d="M 77 75 Q 86 67 95 75" stroke="#1e293b" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                        <path d="M 105 75 Q 114 67 123 75" stroke="#1e293b" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                    </g>
+                    
+                    <path d="M 99 78 L 101 83 L 99 86" stroke="#e2a494" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    
+                    <path id="mouth-happy" d="M 94 95 Q 100 100 106 95" stroke="#be123c" stroke-width="3" fill="none" stroke-linecap="round" style="display: inline;"/>
+                    <path id="mouth-open-smile" d="M 93 94 Q 100 107 107 94 Z" fill="#fda4af" stroke="#be123c" stroke-width="2" style="display: none;"/>
+                </g>
+
+                <g id="z-hair-layer">
+                    <g id="hair-wave" style="display: inline;">
+                        <path d="M 66 70 Q 44 100 48 165 Q 68 150 68 90 Z" fill="#6f4e37" class="h-node"/>
+                        <path d="M 134 70 Q 156 100 152 165 Q 132 150 132 90 Z" fill="#6f4e37" class="h-node"/>
+                        <path d="M 64 68 Q 100 16 136 68 Q 140 85 130 98 Q 100 45 70 98 Q 60 85 64 68" fill="#6f4e37" class="h-node"/>
+                    </g>
+                    <path id="hair-bob" d="M 64 68 Q 100 18 136 68 Q 142 92 136 104 Q 100 52 64 104 Q 58 92 64 68" fill="#6f4e37" style="display: none;" class="h-node"/>
+                    <path id="hair-short" d="M 66 62 Q 100 24 134 62 L 137 74 Q 100 44 63 74 Z" fill="#6f4e37" style="display: none;" class="h-node"/>
+                </g>
+
+                <g id="z-pants-layer">
+                    <path id="cloth-pants" d="M 72 205 L 128 205 L 125 278 L 111 278 L 100 222 L 89 278 L 75 278 Z" fill="#3d3d3d" style="display: inline;"/>
+                    <path id="cloth-shorts" d="M 72 205 L 128 205 L 125 236 L 102 236 L 100 216 L 98 236 L 75 236 Z" fill="#3d3d3d" style="display: none;"/>
+                </g>
+
+                <g id="z-top-layer">
+                    <path id="cloth-long" d="M 68 135 L 52 190 L 62 192 L 73 148 L 73 210 L 127 210 L 127 148 L 138 192 L 148 190 L 132 135 Q 132 112 100 112 Q 68 112 68 135 Z" fill="#85a98f" style="display: inline;"/>
+                    <path id="cloth-short" d="M 68 135 L 57 155 L 68 158 L 73 145 L 73 210 L 127 210 L 127 145 L 132 158 L 143 155 L 132 135 Q 132 112 100 112 Q 68 112 68 135 Z" fill="#85a98f" style="display: none;"/>
+                </g>
+
+                <path id="cloth-coat" d="M 65 130 L 52 195 L 64 197 L 70 150 L 70 240 L 130 240 L 130 150 L 136 197 L 148 195 L 135 130 Q 132 110 100 110 Z" fill="#7c2d12" style="display: none;"/>
+                <path id="cloth-padding" d="M 62 125 L 48 200 L 62 203 L 68 155 L 68 250 L 132 250 L 132 155 L 138 203 L 152 200 L 138 125 Q 132 105 100 105 Z" fill="#1e293b" style="display: none;"/>
+                
+                <path id="acc-mask" d="M 74 78 Q 100 106 126 78 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" style="display: none;"/>
+
+            </svg>
+            <div style="font-size: 13px; font-weight: bold; color: #475569; margin-top: 12px;">제페토 실시간 아바타 뷰</div>
+        </div>
+    </div>
+
+    <script>
+        // ================= [1. 제페토 스타일 성형 로직 개별 제어] =================
+        function setLiveFace(style) {
+            document.getElementById('face-round').style.display = (style === 'zepeto-round') ? 'inline' : 'none';
+            document.getElementById('face-v').style.display = (style === 'zepeto-v') ? 'inline' : 'none';
+            syncTabUI('ui-face', style === 'zepeto-round' ? 0 : 1);
+        }
+
+        function setLiveHairStyle(style) {
+            document.getElementById('hair-wave').style.display = (style === 'wave') ? 'inline' : 'none';
+            document.getElementById('hair-bob').style.display = (style === 'bob') ? 'inline' : 'none';
+            document.getElementById('hair-short').style.display = (style === 'short') ? 'inline' : 'none';
+            let idx = style === 'wave' ? 0 : (style === 'bob' ? 1 : 2);
+            syncTabUI('ui-hair', idx);
+        }
+
+        function setLiveEyes(style) {
+            document.getElementById('eyes-brown').style.display = (style === 'big-brown') ? 'inline' : 'none';
+            document.getElementById('eyes-blue').style.display = (style === 'big-blue') ? 'inline' : 'none';
+            document.getElementById('eyes-smile').style.display = (style === 'smile-eyes') ? 'inline' : 'none';
+            let idx = style === 'big-brown' ? 0 : (style === 'big-blue' ? 1 : 2);
+            syncTabUI('ui-eyes', idx);
+        }
+
+        function setLiveMouth(style) {
+            document.getElementById('mouth-happy').style.display = (style === 'happy') ? 'inline' : 'none';
+            document.getElementById('mouth-open-smile').style.display = (style === 'open-smile') ? 'inline' : 'none';
+            syncTabUI('ui-mouth', style === 'happy' ? 0 : 1);
+        }
+
+        // ================= [2. 실시간 슬라이더 컬러 주입 연동 인터페이스] =================
+        function setLiveSkin(color) {
+            document.getElementById('color-skin').value = color;
+            document.getElementById('z-neck').setAttribute('fill', color);
+            document.getElementById('z-leg-l').setAttribute('fill', color);
+            document.getElementById('z-leg-r').setAttribute('fill', color);
+            document.getElementById('face-round').setAttribute('fill', color);
+            document.getElementById('face-v').setAttribute('fill', color);
+            document.getElementById('z-bare-arms').querySelectorAll('path').forEach(p => p.setAttribute('fill', color));
+        }
+
+        function setLiveHair(color) {
+            document.getElementById('color-hair').value = color;
+            document.querySelectorAll('.h-node').forEach(el => el.setAttribute('fill', color));
+        }
+
+        function setLiveCloth(part, color) {
+            if (part === 'top') {
+                document.getElementById('color-top').value = color;
+                document.getElementById('cloth-long').setAttribute('fill', color);
+                document.getElementById('cloth-short').setAttribute('fill', color);
+            } else {
+                document.getElementById('color-bottom').value = color;
+                document.getElementById('cloth-pants').setAttribute('fill', color);
+                document.getElementById('cloth-shorts').setAttribute('fill', color);
+            }
+        }
+
+        function syncTabUI(id, targetIdx) {
+            const buttons = document.getElementById(id).querySelectorAll('.custom-btn');
+            buttons.forEach((btn, i) => {
+                if (i === targetIdx) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+        }
+
+        // ================= [3. 스마트 기온 알고리즘 & 확장형 헬스케어 피드백] =================
+        function updateSmartCody() {
+            const temp = parseFloat(document.getElementById('weather-temp').value);
+            const health = document.getElementById('health-status').value;
+            const msgNode = document.getElementById('cody-result-msg');
+
+            // 아바타 의상 초기 리셋 클리어링
+            document.getElementById('cloth-long').style.display = 'none';
+            document.getElementById('cloth-short').style.display = 'none';
+            document.getElementById('z-bare-arms').style.display = 'none';
+            document.getElementById('cloth-pants').style.display = 'none';
+            document.getElementById('cloth-shorts').style.display = 'none';
+            document.getElementById('cloth-coat').style.display = 'none';
+            document.getElementById('cloth-padding').style.display = 'none';
+            document.getElementById('acc-mask').style.display = 'none';
+
+            let topColor = "#85a98f"; let bottomColor = "#3d3d3d";
+            let healthAdvice = "";
+
+            // 정밀 건강 상태 가중치 분기
+            let calculatedTemp = temp;
+            if (health === 'cold') {
+                calculatedTemp -= 4.5; // 몸살 시 체감 기온을 강제 하락 유도
+                document.getElementById('acc-mask').style.display = 'inline';
+                healthAdvice = "<br>😷 <b>[건강 맞춤 팁]</b> 감기몸살 기운으로 오한이 생길 수 있으니 따뜻한 차를 마시고 호흡기 보호용 마스크를 착용하세요. 추천 영양소: <b>비타민 C & 아연</b>";
+            } else if (health === 'allergy') {
+                document.getElementById('acc-mask').style.display = 'inline';
+                healthAdvice = "<br>🌿 <b>[건강 맞춤 팁]</b> 외부 미세먼지와 꽃가루 차단 마스크를 씌웠습니다. 외출 전 항히스타민제를 챙기세요. 추천 영양소: <b>프로폴리스</b>";
+            } else if (health === 'tired') {
+                calculatedTemp -= 1.5;
+                healthAdvice = "<br>😴 <b>[건강 맞춤 팁]</b> 누적 피로로 면역력이 떨어져 기온 변화에 취약합니다. 꽉 조이는 옷 대신 편안한 루즈핏을 권장해요. 추천 영양소: <b>비타민 B 복합체</b>";
+            } else {
+                healthAdvice = "<br>✨ <b>[건강 맞춤 팁]</b> 컨디션이 매우 좋습니다! 활기찬 에너지를 유지하기 위해 가벼운 스트레칭을 해보세요. 추천 영양소: <b>종합 비타민</b>";
+            }
+
+            // 기온 경계값 연동 코디 패턴 매칭
+            if (calculatedTemp >= 24) {
+                msgNode.innerHTML = "☀️ <b>코디 추천:</b> 오늘 기온은 무더운 여름 날씨입니다! 제페토 캐릭터에게 시원한 <b>반팔 니트웨어와 반바지</b> 조합을 매치했습니다." + healthAdvice;
+                document.getElementById('cloth-short').style.display = 'inline';
+                document.getElementById('z-bare-arms').style.display = 'inline';
+                document.getElementById('cloth-shorts').style.display = 'inline';
+                topColor = "#ffffff"; bottomColor = "#60a5fa";
+            } else if (calculatedTemp >= 15 && calculatedTemp < 24) {
+                msgNode.innerHTML = "🌸 <b>코디 추천:</b> 외출하기 딱 좋은 화창하고 예쁜 날씨! 포근한 느낌을 주는 <b>베이직 긴팔 니트티와 진회색 슬랙스</b> 코디입니다." + healthAdvice;
+                document.getElementById('cloth-long').style.display = 'inline';
+                document.getElementById('cloth-pants').style.display = 'inline';
+                topColor = "#85a98f"; bottomColor = "#3d3d3d";
+            } else if (calculatedTemp >= 5 && calculatedTemp < 15) {
+                msgNode.innerHTML = "🍁 <b>코디 추천:</b> 일교차가 커서 쌀쌀한 가을 날씨입니다. 니트 위에 멋스럽게 입을 수 있는 <b>클래식 브라운 코트</b>를 장착했습니다." + healthAdvice;
+                document.getElementById('cloth-long').style.display = 'inline';
+                document.getElementById('cloth-pants').style.display = 'inline';
+                document.getElementById('cloth-coat').style.display = 'inline';
+                topColor = "#ffffff"; bottomColor = "#1e293b";
+            } else {
+                msgNode.innerHTML = "❄️ <b>코디 추천:</b> 칼바람이 부는 한파 경보! 감기에 걸리지 않도록 무조건 두꺼운 <b>윈터 롱패딩 외투</b>로 전신을 꽁꽁 무장했습니다." + healthAdvice;
+                document.getElementById('cloth-long').style.display = 'inline';
+                document.getElementById('cloth-pants').style.display = 'inline';
+                document.getElementById('cloth-padding').style.display = 'inline';
+                topColor = "#cbd5e1"; bottomColor = "#0f172a";
+            }
+
+            // 아바타 색상 반영 고정
+            setLiveCloth('top', topColor);
+            setLiveCloth('bottom', bottomColor);
+        }
+
+        // 윈도우 로드 이벤트 시 초기 세팅 강제 주입
+        window.onload = function() {
+            setLiveSkin("#ffe5d9");
+            setLiveHair("#6f4e37");
+            updateSmartCody();
+        };
+    </script>
+</body>
+</html>
